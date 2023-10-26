@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Задача № 28</title>
+</head>
+<body>
+
+  <button id="add-button">Добавить элемент</button>
+  <div id="container"></div>
+
+  <template id="my-template">
+    <div class="element">
+      <h2 class="title"></h2>
+      <p class="description"></p>
+    </div>
+  </template>
+
+  <script>
+    function addElementFromTemplate(titleText, descriptionText) {
+      const template = document.getElementById('my-template');
+      const clone = document.importNode(template.content, true);
+
+      const titleElement = clone.querySelector('.title');
+      titleElement.textContent = titleText;
+
+      const descriptionElement = clone.querySelector('.description');
+      descriptionElement.textContent = descriptionText;
+
+      const container = document.getElementById('container');
+      container.appendChild(clone);
+    }
+
+    const addButton = document.getElementById('add-button');
+    addButton.addEventListener('click', function() {
+      addElementFromTemplate('Новый элемент', 'Описание нового элемента');
+    });
+
+    // добавим еще один элемент по умолчанию при загрузке страницы
+    addElementFromTemplate('Элемент по умолчанию', 'Описание элемента по умолчанию');
+  </script>
+
+</body>
+</html>

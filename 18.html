@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Задача #18</title>
+</head>
+
+<body>
+  <script>
+    function getLocalStorageSize() {
+      let data = 'a';
+      let size = 0;
+
+      function addItem() {
+        try {
+          localStorage.setItem(data, data);
+          data += data;
+          size += data.length;
+          setTimeout(addItem, 0); //вызываем addItem снова после минимальной задержки
+        } catch (e) {
+          localStorage.removeItem(data);
+          console.log("Максимальный объем данных в localStorage:", size, "байт");
+        }
+      }
+
+      addItem(); 
+    }
+
+
+    if (typeof localStorage === 'undefined' || localStorage === null) {
+      console.error("Ваш браузер не поддерживает localStorage.");
+    } else {
+      getLocalStorageSize();
+    }
+  </script>
+</body>
+
+</html>

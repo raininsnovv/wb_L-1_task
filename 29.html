@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Задача № 29</title>
+</head>
+<body>
+
+
+<form id="myForm">
+  <label for="name">Имя:</label>
+  <input type="text" id="name" name="name">
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email">
+
+  <button type="submit">Отправить</button>
+</form>
+
+<script>
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    // получаем данные из формы
+    const formData = new FormData(event.target);
+    const formDataObject = {};
+
+    formData.forEach((value, key) => {
+      formDataObject[key] = value;
+    });
+
+    // отображаем данные во всплывающем окне
+    alert(`Получены следующие данные:\n\nИмя: ${formDataObject.name}\nEmail: ${formDataObject.email}`);
+  }
+
+  const myForm = document.getElementById('myForm');
+
+  myForm.addEventListener('submit', handleSubmit);
+</script>
+
+</body>
+</html>

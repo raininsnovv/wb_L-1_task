@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задача № 19-20..VK Widget</title>
+    <style>
+        #vk-widget {
+            width: 300px;
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="vk-widget"></div>
+    <script>
+        const accessToken = '9b94a7559b94a7559b94a755f79882b22799b949b94a755feadd87255a207c64adb4d4f';
+        const groupId = '0ew9QYcJYmX3j1IG0DYu';
+        const postLimit = 10;
+        let offset = 0;
+
+        async function getPosts() {
+            return fetch(`https://api.vk.com/method/wall.get?owner_id=-${groupId}&count=${postLimit}&offset=${offset}&access_token=${accessToken}&v=5.131`)
+                .then(response => response.json())
+                .then(data => data.response.items)
+                .catch(error => {
+                    console.error('Error fetching posts:', error);
+                    return [];
+                });
+        }
+
+        function saveToCache(posts) {
+            const cachedPosts = loadFromCache();
+            const allPosts = [...cachedPosts, ...posts].slice(0, postLimit);
+            localStorage.setItem('cachedPosts', JSON.stringify(allPosts));
+        }
+
+        function loadFromCache() {
+            return JSON.parse(localStorage.getItem('cachedPosts')) || [];
+        }
+
+        function renderPosts(posts) {
+            const widget = document.getElementById('vk-widget');
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.textContent = post.text;
+                widget.appendChild(postElement);
+            });
+        }
+
+        function updateStorageUsage() {
+            const currentStorageSize = JSON.stringify(localStorage).length;
+            const maxSize = 5 * 1024 * 1024; // 5 MB (for most browsers)
+
+            console.log(`Storage Usage: ${currentStorageSize / 1024} KB / ${maxSize / 1024} KB`);
+        }
+
+        function loadPosts() {
+            getPosts().then(posts => {
+                saveToCache(posts);
+                renderPosts(posts);
+                offset += postLimit;
+            });
+        }
+
+        function onStorageChange() {
+            updateStorageUsage();
+        }
+
+        window.addEventListener('storage', onStorageChange);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            updateStorageUsage();
+            renderPosts(loadFromCache());
+
+            document.getElementById('vk-widget').addEventListener('scroll', function () {
+                if (this.scrollTop + this.clientHeight >= this.scrollHeight) {
+                    loadPosts();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

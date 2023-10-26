@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задача № 26</title>
+</head>
+<body>
+    <div>
+        <p>Hello, World!</p>
+        <ul>
+            <li>Item 1</li>
+            <li>Item 2</li>
+        </ul>
+    </div>
+<script>
+    //функция рекурсивного обхода дерева DOM
+    function traverseDOM(element, action) {
+        //действие для текущего элемента
+        action(element);
+
+        //рекурсивно обходим дочерние узлы
+        for (let i = 0; i < element.children.length; i++) {
+            traverseDOM(element.children[i], action);
+        }
+    }
+
+    // вывод информации о теге в консоль
+    const logTagInfo = (element) => {
+        console.log('Tag:', element.tagName);
+    };
+
+    //обход дерева начиная с body
+    const rootElement = document.body;
+    traverseDOM(rootElement, logTagInfo);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        pre {
+          background-color: #f4f4f4;
+          padding: 10px;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          overflow-x: auto;
+        }
+      
+        code {
+          font-family: 'Courier New', monospace;
+          font-size: 18px;
+          color: #2e26a3;
+        }
+      </style>
+    <script src="./4.js"></script>
+    <title>caseConjugation</title>
+</head>
+
+<body>
+    <code>
+        <pre>
+            const caseConjugation = (num, form) => {
+                if (num % 10 === 1 && num % 100 !== 11) {
+                  return num + " " + form[0];
+                } else if (
+                  num % 10 >= 2 &&
+                  num % 10 <= 4 &&
+                  (num % 100 < 10 || num % 100 >= 20)
+                ) {
+                  return num + " " + form[1];
+                } else return num + " " + form[2];
+              };
+              console.log(caseConjugation(113, ["пользователь", "пользователя", "пользователей"])); 
+              
+        </pre>
+    </code>
+</body>
+
+</html>

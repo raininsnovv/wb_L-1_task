@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Задача № 22</title>
+</head>
+<body>
+  <div id="output"></div>
+
+  <script>
+    function countDocumentWrites() {
+      let count = 0;
+      const outputDiv = document.getElementById('output');
+
+      function tryDocumentWrite() {
+        try {
+          const paragraph = document.createElement('p');
+          paragraph.textContent = `Попытка номер ${count + 1}`;
+          outputDiv.appendChild(paragraph);
+
+          count++;
+          tryDocumentWrite(); //рекурсивный вызов для следующей попытки
+        } catch (error) {
+          const resultParagraph = document.createElement('p');
+          resultParagraph.textContent = `Максимальное количество вызовов document.write(): ${count}`;
+          outputDiv.appendChild(resultParagraph);
+        }
+      }
+
+      tryDocumentWrite(); 
+    }
+
+    countDocumentWrites(); //запуск функции для подсчета вызовов
+  </script>
+</body>
+</html>
+

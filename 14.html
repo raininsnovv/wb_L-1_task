@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Задача № 14</title>
+</head>
+<body>
+
+<script>
+ loadImage('https://kinsta.com/wp-content/uploads/2017/05/how-to-optimize-images-for-web-and-performance.jpg').then(data => {
+  console.log('Изображение успешно загружено:', data);
+}).catch(error => {
+  console.error('Ошибка загрузки изображения:', error.message);
+});
+
+function loadImage(url) {
+  return new Promise((resolve, reject) => {
+    const img = document.createElement('img');
+    img.src = url;
+    img.alt = 'Image';
+
+    img.addEventListener('error', () => reject(new Error('Image load failed')));
+    img.addEventListener('load', () => {
+      // создаем объект с данными об изображении
+      const imageData = {
+        width: img.width,
+        height: img.height,
+        src: url,
+      };
+
+      resolve(imageData);
+    });
+  });
+}
+
+
+</script>
+
+</body>
+</html>

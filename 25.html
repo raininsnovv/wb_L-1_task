@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задача № 25</title>
+
+</head>
+
+<body>
+
+    <script>
+
+        function createAndStyleElement(tagName, styles) {
+            // проверка на наличие обязательных параметров
+            if (!tagName || !styles) {
+                console.error('Необходимо указать tagName и styles.');
+                return null;
+            }
+
+            // создание нового элемента
+            const element = document.createElement(tagName);
+
+            // применение стилей к элементу
+            for (const property in styles) {
+                if (styles.hasOwnProperty(property)) {
+                    element.style[property] = styles[property];
+                }
+            }
+
+            // добавление элемента в начало body
+            document.body.prepend(element);
+
+            // возвращение созданного элемента
+            return element;
+        }
+
+        const styles = {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100px',
+            height: '100px',
+            backgroundColor: 'brown',
+            color: 'white',
+            textAlign: 'center',
+            fontSize: '22px'
+        };
+
+        // вызов функции для создания и стилизации элемента
+        const newDiv = createAndStyleElement('div', styles);
+
+        // проверка, был ли элемент успешно создан, и установка текстового содержимого
+        if (newDiv) {
+            newDiv.textContent = 'Новый элемент';
+        }
+    </script>
+
+</body>
+
+</html>

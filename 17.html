@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Задача № 17</title>
+</head>
+
+<body>
+    <div class="geo-search">
+        <h1>Поиск адреса</h1>
+        <input type="text" id="addressInput" placeholder="Введите адрес">
+        <ul id="suggestions"></ul>
+        <script>
+            function initMap() {
+                const addressInput = document.getElementById('addressInput');
+                const suggestionsList = document.getElementById('suggestions');
+
+                addressInput.addEventListener('input', debounce(searchAddress, 300));
+
+                function debounce(func, delay) {
+                    let timerId;
+                    return function () {
+                        clearTimeout(timerId);
+                        timerId = setTimeout(() => {
+                            func.apply(this, arguments);
+                        }, delay);
+                    };
+                }
+
+                function searchAddress() {
+                    const query = addressInput.value;
+                    if (query.length < 3) {
+                        suggestionsList.style.display = 'none';
+                        return;
+                    }
+
+                    // выполнение запроса к API Яндекс;
+                    fetch(`https://geocode-maps.yandex.ru/1.x/?format=json&geocode=${query}&apikey=be1b50a3-5da7-49b0-889f-6d000f910273`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const featureMembers = data.response.GeoObjectCollection.featureMember;
+                            if (featureMembers && featureMembers.length > 0) {
+                                const suggestions = featureMembers.map(item => item.GeoObject.name);
+                                displaySuggestions(suggestions);
+                            } else {
+                                console.error('Отсутствуют данные о местоположении.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Ошибка при выполнении запроса:', error);
+                        });
+                }
+
+                // отображение результатов
+                function displaySuggestions(suggestions) {
+                    suggestionsList.innerHTML = '';
+                    suggestions.forEach(suggestion => {
+                        const li = document.createElement('li');
+                        li.textContent = suggestion;
+                        li.addEventListener('click', () => {
+                            addressInput.value = suggestion;
+                            suggestionsList.style.display = 'none';
+                        });
+                        suggestionsList.appendChild(li);
+                    });
+                    suggestionsList.style.display = 'block';
+                }
+            }
+        </script>
+        <script src="https://api-maps.yandex.ru/2.1/?apikey=be1b50a3-5da7-49b0-889f-6d000f910273&lang=ru_RU&onload=initMap"
+            async></script>
+    </div>
+</body>
+
+</html>
